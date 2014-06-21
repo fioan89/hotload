@@ -1,4 +1,4 @@
-package org.wavescale.hotload.agent.util;
+package org.wavescale.hotload.util;
 
 /**
  * ****************************************************************************
