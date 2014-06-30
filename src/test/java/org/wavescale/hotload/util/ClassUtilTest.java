@@ -1,7 +1,6 @@
 package org.wavescale.hotload.util;
 
 import junit.framework.TestCase;
-import org.wavescale.hotload.agent.util.ClassUtil;
 
 /**
  * ****************************************************************************
@@ -27,5 +26,13 @@ public class ClassUtilTest extends TestCase {
 
     public void testNormalizeClassWithMixedChars() {
         assertEquals(ClassUtil.normalizeClassName("org/wavescale/hotload.agent.Class"), "org.wavescale.hotload.agent.Class");
+    }
+
+    public void testInTabooList() {
+        assertTrue(ClassUtil.inTabooListOfPackages("java.lang"));
+    }
+
+    public void testNotInTabooList() {
+        assertFalse(ClassUtil.inTabooListOfPackages("gibberishjabberis///"));
     }
 }
