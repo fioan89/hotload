@@ -1,8 +1,7 @@
-package org.wavescale.hotload.util.transformer.api;
+package org.wavescale.hotload.transformer.api;
 
 import junit.framework.TestCase;
 import org.objectweb.asm.Opcodes;
-import org.wavescale.hotload.transformer.api.VarArgsHelperMethod;
 import org.wavescale.hotload.util.Constants;
 
 /**
