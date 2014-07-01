@@ -77,14 +77,28 @@ public class ClassUtil {
     };
 
     /**
-     * Replaces every "/" chararcter with ".".
+     * Replaces every "/" character with ".".
      *
      * @param className a {@link String} representing the class name. Usually the value
-     *                  has the following form: domain.package.class
+     *                  has the following form: domain/package/class. If this is null an empty string will be returned.
      * @return a {@link String} in which the "/" char is replaced with "."
      */
     public static String normalizeClassName(String className) {
-        return className.replace("/", ".");
+        if (className != null) {
+            return className.replace("/", ".");
+        }
+        return "";
+    }
+
+    /**
+     * Replaces every "." character with "/".
+     *
+     * @param className a {@link String} representing the class name. Usually the value
+     *                  has the following form: domain.package.class. If this is null an empty string will be returned.
+     * @return a {@link String} in which the "." char is replaced with "/"
+     */
+    public static String deNormalizeClassName(String className) {
+        return className.replace(".", "/");
     }
 
     /**

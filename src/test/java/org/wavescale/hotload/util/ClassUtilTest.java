@@ -17,15 +17,15 @@ import junit.framework.TestCase;
 public class ClassUtilTest extends TestCase {
 
     public void testNormalizeClassNameWithForwardSlash() {
-        assertEquals(ClassUtil.normalizeClassName("org/wavescale/hotload/agent.Class"), "org.wavescale.hotload.agent.Class");
+        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org/wavescale/hotload/agent.Class"));
     }
 
     public void testNormalizeClassNameWithPeriod() {
-        assertEquals(ClassUtil.normalizeClassName("org.wavescale.hotload.agent.Class"), "org.wavescale.hotload.agent.Class");
+        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org.wavescale.hotload.agent.Class"));
     }
 
     public void testNormalizeClassWithMixedChars() {
-        assertEquals(ClassUtil.normalizeClassName("org/wavescale/hotload.agent.Class"), "org.wavescale.hotload.agent.Class");
+        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org/wavescale/hotload.agent.Class"));
     }
 
     public void testInTabooList() {
@@ -34,5 +34,17 @@ public class ClassUtilTest extends TestCase {
 
     public void testNotInTabooList() {
         assertFalse(ClassUtil.inTabooListOfPackages("gibberishjabberis///"));
+    }
+
+    public void testDeNormalizeClassNameWithPeriod() {
+        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org.wavescale.hotload.agent.Class"));
+    }
+
+    public void testDeNormalizeClassNameWithSlash() {
+        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org.wavescale/hotload/agent/Class"));
+    }
+
+    public void testDeNormalizeClassNameWithMixedChars() {
+        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org/wavescale/hotload.agent.Class"));
     }
 }
