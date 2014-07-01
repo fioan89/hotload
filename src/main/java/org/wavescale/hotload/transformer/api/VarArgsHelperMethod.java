@@ -16,24 +16,22 @@ import org.wavescale.hotload.util.Constants;
  * *****************************************************************************
  */
 public class VarArgsHelperMethod extends MethodNode {
-    private String methodName;
     private Class clazz;
 
     public VarArgsHelperMethod(Class clazz, String methodName) {
         super(Opcodes.ASM5, Opcodes.ACC_PUBLIC | Opcodes.ACC_TRANSIENT | Opcodes.ACC_VARARGS, methodName,
                 Constants.VARARGS_METHOD_CALL_DESCRIPTOR, null, null);
-        this.methodName = methodName;
         this.clazz = clazz;
         addEmptyContent();
     }
 
 
     public String getMethodName() {
-        return methodName;
+        return this.name;
     }
 
     public void setMethodName(String methodName) {
-        this.methodName = methodName;
+        this.name = methodName;
     }
 
     /**
