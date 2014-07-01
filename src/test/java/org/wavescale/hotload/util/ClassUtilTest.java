@@ -16,16 +16,21 @@ import junit.framework.TestCase;
 
 public class ClassUtilTest extends TestCase {
 
+    public static final String ORG_WAVESCALE_HOTLOAD_AGENT_CLASS = "org.wavescale.hotload.agent.Class";
+    public static final String ORG_WAVESCALE_HOTLOAD_AGENT_CLASS_WITH_FSLASH = "org/wavescale/hotload/agent/Class";
+    public static final String PUBLIC_METHOD_NAME_WITH_INDEX = "publicStringMethodOne1";
+    public static final String PUBLIC_METHOD_NAME_WITHOUT_INDEX = "publicStringMethodOne";
+
     public void testNormalizeClassNameWithForwardSlash() {
-        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org/wavescale/hotload/agent.Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS, ClassUtil.normalizeClassName("org/wavescale/hotload/agent.Class"));
     }
 
     public void testNormalizeClassNameWithPeriod() {
-        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org.wavescale.hotload.agent.Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS, ClassUtil.normalizeClassName("org.wavescale.hotload.agent.Class"));
     }
 
     public void testNormalizeClassWithMixedChars() {
-        assertEquals("org.wavescale.hotload.agent.Class", ClassUtil.normalizeClassName("org/wavescale/hotload.agent.Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS, ClassUtil.normalizeClassName("org/wavescale/hotload.agent.Class"));
     }
 
     public void testInTabooList() {
@@ -37,14 +42,28 @@ public class ClassUtilTest extends TestCase {
     }
 
     public void testDeNormalizeClassNameWithPeriod() {
-        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org.wavescale.hotload.agent.Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS_WITH_FSLASH, ClassUtil.deNormalizeClassName(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS));
     }
 
     public void testDeNormalizeClassNameWithSlash() {
-        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org.wavescale/hotload/agent/Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS_WITH_FSLASH, ClassUtil.deNormalizeClassName("org.wavescale/hotload/agent/Class"));
     }
 
     public void testDeNormalizeClassNameWithMixedChars() {
-        assertEquals("org/wavescale/hotload/agent/Class", ClassUtil.deNormalizeClassName("org/wavescale/hotload.agent.Class"));
+        assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS_WITH_FSLASH, ClassUtil.deNormalizeClassName("org/wavescale/hotload.agent.Class"));
     }
+
+    public void testGetPublicMethodNameWithNegativeIndex() {
+        assertEquals(PUBLIC_METHOD_NAME_WITHOUT_INDEX, ClassUtil.getPublicMethodName(String.class, "MethodOne", -1));
+    }
+
+    public void testGetPublicMethodNameWithZeroIndex() {
+        assertEquals(PUBLIC_METHOD_NAME_WITHOUT_INDEX, ClassUtil.getPublicMethodName(String.class, "MethodOne", 0));
+    }
+
+    public void testGetPublicMethodNameWithPositiveIndex() {
+        assertEquals(PUBLIC_METHOD_NAME_WITH_INDEX, ClassUtil.getPublicMethodName(String.class, "MethodOne", 1));
+    }
+
+
 }
