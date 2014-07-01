@@ -126,7 +126,7 @@ public class ClassUtil {
      * @return a {code String} instance represented by the concatenation of "public", simple class name, method name
      * and string value of index.
      */
-    public String getPublicMethodName(Class clazz, String methodName, int index) {
+    public static String getPublicMethodName(Class clazz, String methodName, int index) {
         String indexValue = "";
         if (index > 0) {
             indexValue = String.valueOf(index);
