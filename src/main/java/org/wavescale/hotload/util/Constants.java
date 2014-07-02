@@ -14,4 +14,5 @@ package org.wavescale.hotload.util;
 public class Constants {
 
     public static final String VARARGS_METHOD_CALL_DESCRIPTOR = "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object";
+    public static final int DEFAULT_NR_OF_HELPER_METHODS = 5;
 }
