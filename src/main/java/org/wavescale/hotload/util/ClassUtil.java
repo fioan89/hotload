@@ -105,7 +105,7 @@ public class ClassUtil {
      * Checks if the class name exists in a list of taboo packages(kept internally)
      *
      * @param className a {@link String} representing a package or full class name.
-     * @return true
+     * @return true if class name should be excluded, false otherwise.
      */
     public static boolean inTabooListOfPackages(String className) {
         for (String skipPackage : tabooPackages) {
