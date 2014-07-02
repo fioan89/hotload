@@ -1,5 +1,7 @@
 package org.wavescale.hotload.agent;
 
+import org.wavescale.hotload.transformer.MethodTransformer;
+
 import java.lang.instrument.Instrumentation;
 
 /**
@@ -16,6 +18,6 @@ import java.lang.instrument.Instrumentation;
 public class HotLoadAgent {
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
-        System.out.println("com.wavescale.hotload.agent.HotLoadAgent.premain");
+        instrumentation.addTransformer(new MethodTransformer());
     }
 }
