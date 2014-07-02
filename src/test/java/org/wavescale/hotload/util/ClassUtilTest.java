@@ -19,6 +19,7 @@ public class ClassUtilTest extends TestCase {
     public static final String ORG_WAVESCALE_HOTLOAD_AGENT_CLASS = "org.wavescale.hotload.agent.Class";
     public static final String ORG_WAVESCALE_HOTLOAD_AGENT_CLASS_WITH_FSLASH = "org/wavescale/hotload/agent/Class";
     public static final String PUBLIC_METHOD_NAME_WITH_INDEX = "publicStringMethodOne1";
+    public static final String PUBLIC_METHOD_NAME_WITH_INDEX_ZERO = "publicStringMethodOne0";
     public static final String PUBLIC_METHOD_NAME_WITHOUT_INDEX = "publicStringMethodOne";
 
     public void testNormalizeClassNameWithForwardSlash() {
@@ -58,7 +59,7 @@ public class ClassUtilTest extends TestCase {
     }
 
     public void testGetPublicMethodNameWithZeroIndex() {
-        assertEquals(PUBLIC_METHOD_NAME_WITHOUT_INDEX, ClassUtil.getPublicMethodName(String.class, "MethodOne", 0));
+        assertEquals(PUBLIC_METHOD_NAME_WITH_INDEX_ZERO, ClassUtil.getPublicMethodName(String.class, "MethodOne", 0));
     }
 
     public void testGetPublicMethodNameWithPositiveIndex() {

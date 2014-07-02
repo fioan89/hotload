@@ -118,17 +118,17 @@ public class ClassUtil {
 
     /**
      * Builds a unique method name by concatenating the "public", simple class name, method name
-     * and the index if it is greater than 0.
+     * and the index if it is greater than negative one.
      *
      * @param clazz      a {@link Class} instance.
      * @param methodName a string representing the central part of the method name
-     * @param index      if the value is greater than 0, the string value will be appended to the name.
+     * @param index      if the value is greater than -1, the string value will be appended to the name.
      * @return a {code String} instance represented by the concatenation of "public", simple class name, method name
      * and string value of index.
      */
     public static String getPublicMethodName(Class clazz, String methodName, int index) {
         String indexValue = "";
-        if (index > 0) {
+        if (index >= 0) {
             indexValue = String.valueOf(index);
         }
 
