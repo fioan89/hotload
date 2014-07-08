@@ -1,7 +1,11 @@
 package org.wavescale.hotload.agent;
 
 import org.wavescale.hotload.transformer.MethodTransformer;
+import org.wavescale.hotload.watcher.FileWatcher;
+import org.wavescale.hotload.watcher.WatchHandler;
+import org.wavescale.hotload.watcher.api.NotifyHandler;
 
+import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 
 /**
@@ -18,6 +22,15 @@ import java.lang.instrument.Instrumentation;
 public class HotLoadAgent {
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
-        instrumentation.addTransformer(new MethodTransformer());
+        ConfigManager configManager = ConfigManager.getInstance();
+        NotifyHandler watchHandler = new WatchHandler();
+        try {
+            FileWatcher fileMonitor = new FileWatcher(configManager.getDirsToMonitor(), configManager.isMonitorRecursive());
+            fileMonitor.addNotifyHandler(watchHandler);
+            instrumentation.addTransformer(new MethodTransformer());
+        } catch (IOException e) {
+            // TODO -proper log the exeception
+            e.printStackTrace();
+        }
     }
 }

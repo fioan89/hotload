@@ -20,6 +20,8 @@ import org.wavescale.hotload.util.Constants;
 public class ConfigManager {
     private static ConfigManager ourInstance = new ConfigManager();
     private int numberOfMethodsToBeAdded = Constants.DEFAULT_NR_OF_HELPER_METHODS;
+    private String[] dirsToMonitor;
+    private boolean monitorRecursive = false;
 
     public static ConfigManager getInstance() {
         return ourInstance;
@@ -50,5 +52,21 @@ public class ConfigManager {
             String errorMessage = String.valueOf(numberOfMethodsToBeAdded) + " of helper methods is invalid. The value mustbe in range [0, " + Short.MAX_VALUE + "]";
             throw new IllegalArgumentException(errorMessage);
         }
+    }
+
+    public String[] getDirsToMonitor() {
+        return dirsToMonitor;
+    }
+
+    public void setDirsToMonitor(String[] dirsToMonitor) {
+        this.dirsToMonitor = dirsToMonitor;
+    }
+
+    public boolean isMonitorRecursive() {
+        return monitorRecursive;
+    }
+
+    public void setMonitorRecursive(boolean monitorRecursive) {
+        this.monitorRecursive = monitorRecursive;
     }
 }
