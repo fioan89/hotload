@@ -26,7 +26,7 @@ public class AgentArgParser implements OptionsParser {
 
     private void init() {
         options = new Options();
-        parser = new BasicParser();
+        parser = new PosixParser();
 
         initDefinitionStage();
     }

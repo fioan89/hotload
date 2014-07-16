@@ -50,9 +50,11 @@ public class HotLoadAgent {
         try {
             CommandLine options = parser.parse();
             // get the recursive monitoring option value
-            String recursive = options.getOptionValue("recursive");
-            if (!"true".equals(recursive.toLowerCase())) {
-                configManager.setMonitorRecursive(false);
+            if (options.hasOption("recursive")) {
+                String recursive = options.getOptionValue("recursive");
+                if (!"true".equals(recursive.toLowerCase())) {
+                    configManager.setMonitorRecursive(false);
+                }
             }
 
             // get the number of virtual methods that can be instrumented
@@ -68,7 +70,5 @@ public class HotLoadAgent {
         } catch (ParseException e) {
             // TODO - proper log the exception
         }
-
-
     }
 }
