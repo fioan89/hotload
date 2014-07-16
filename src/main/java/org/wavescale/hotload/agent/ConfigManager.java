@@ -19,9 +19,10 @@ import org.wavescale.hotload.util.Constants;
  */
 public class ConfigManager {
     private static ConfigManager ourInstance = new ConfigManager();
+
     private int numberOfMethodsToBeAdded = Constants.DEFAULT_NR_OF_HELPER_METHODS;
     private String[] dirsToMonitor;
-    private boolean monitorRecursive = false;
+    private boolean monitorRecursive = true;
 
     public static ConfigManager getInstance() {
         return ourInstance;
