@@ -16,7 +16,7 @@ import org.wavescale.hotload.util.Constants;
  * *****************************************************************************
  */
 public class VarArgsHelperMethod extends MethodNode {
-    private Class clazz;
+    private final Class clazz;
 
     public VarArgsHelperMethod(Class clazz, String methodName) {
         super(Opcodes.ASM5, Opcodes.ACC_PUBLIC | Opcodes.ACC_TRANSIENT | Opcodes.ACC_VARARGS, methodName,

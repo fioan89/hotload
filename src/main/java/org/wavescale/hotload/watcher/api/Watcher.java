@@ -36,7 +36,7 @@ public interface Watcher {
     /**
      * Registers handler for handling the file creation and modification event.
      *
-     * @param notifyHandler
+     * @param notifyHandler notification handler.
      */
     public void addNotifyHandler(NotifyHandler notifyHandler);
 }
