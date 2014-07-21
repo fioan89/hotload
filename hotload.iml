@@ -10,9 +10,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="org.apache.commons:com.springsource.org.apache.commons.cli:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-all:5.0.3" level="project" />
-    <orderEntry type="library" name="org.apache.commons:com.springsource.org.apache.commons.cli:1.2.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
   </component>
 </module>
 
