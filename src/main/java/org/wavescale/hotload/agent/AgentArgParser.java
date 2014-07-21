@@ -15,7 +15,7 @@ import org.wavescale.hotload.agent.api.OptionsParser;
  * *****************************************************************************
  */
 public class AgentArgParser implements OptionsParser {
-    private String[] rawArgs;
+    private final String[] rawArgs;
     private Options options;
     private CommandLineParser parser;
 
@@ -41,8 +41,9 @@ public class AgentArgParser implements OptionsParser {
             options.addOption(OptionBuilder.withLongOpt("class-path").withDescription("directory where classes reside")
                     .hasArg().withArgName("PATH").create());
             options.addOption("r", "recursive", true, "monitor the folder recursive");
+            options.addOption(OptionBuilder.withLongOpt("log-level").withDescription("logg level").hasArg().
+                    withArgName("LEVEL").create());
         }
-
     }
 
     /**

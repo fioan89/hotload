@@ -14,15 +14,18 @@ package org.wavescale.hotload.agent;
 
 import org.wavescale.hotload.util.Constants;
 
+import java.util.logging.Level;
+
 /**
  * A configuration model used to store all agent arguments.
  */
 public class ConfigManager {
-    private static ConfigManager ourInstance = new ConfigManager();
+    private static final ConfigManager ourInstance = new ConfigManager();
 
     private int numberOfMethodsToBeAdded = Constants.DEFAULT_NR_OF_HELPER_METHODS;
     private String[] dirsToMonitor;
     private boolean monitorRecursive = true;
+    private Level logLevel = Level.INFO;
 
     public static ConfigManager getInstance() {
         return ourInstance;
@@ -69,5 +72,13 @@ public class ConfigManager {
 
     public void setMonitorRecursive(boolean monitorRecursive) {
         this.monitorRecursive = monitorRecursive;
+    }
+
+    public Level getLogLevel() {
+        return logLevel;
+    }
+
+    public void setLogLevel(Level logLevel) {
+        this.logLevel = logLevel;
     }
 }
