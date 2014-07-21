@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 
@@ -32,6 +34,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
  * for this class is thread safe.
  */
 public class FileWatcher extends Thread implements Watcher {
+    private static final Logger LOGGER = Logger.getLogger(FileWatcher.class.getName());
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
     private List<NotifyHandler> handlers;
@@ -39,13 +42,13 @@ public class FileWatcher extends Thread implements Watcher {
 
     public FileWatcher(String[] dirsToWatch, boolean isRecursive) throws IOException {
         this.watcher = FileSystems.getDefault().newWatchService();
-        this.keys = new HashMap<WatchKey, Path>();
+        this.keys = new HashMap<>();
         this.handlers = new ArrayList<>();
         this.recursive = isRecursive;
         for (String dirToWatch : dirsToWatch) {
             // check if its dir
             if (isFolder(dirToWatch)) {
-                // TODO log dir is registered
+                LOGGER.log(Level.INFO, "Registering folder " + dirToWatch + " for monitoring");
                 if (recursive) {
                     registerAll(Paths.get(dirToWatch));
                 } else {
@@ -53,7 +56,7 @@ public class FileWatcher extends Thread implements Watcher {
                 }
 
             } else {
-                // TODO log a warning for the skipped value
+                LOGGER.log(Level.WARNING, "Skipping " + dirToWatch + " for the file is not a valid directory");
             }
         }
 
@@ -113,7 +116,7 @@ public class FileWatcher extends Thread implements Watcher {
 
             Path dir = keys.get(key);
             if (dir == null) {
-                // TODO System.err.println("WatchKey not recognized!!");
+                LOGGER.log(Level.WARNING, " Watch key not recognized");
                 continue;
             }
 
@@ -129,9 +132,8 @@ public class FileWatcher extends Thread implements Watcher {
                 WatchEvent<Path> ev = (WatchEvent<Path>) event;
                 Path name = ev.context();
                 Path child = dir.resolve(name);
-                // TODO - properly log this info message
-                // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
+
+                LOGGER.log(Level.INFO, "The " + event.kind().name() + " event was triggered on:" + child);
 
                 // if directory is created, and watching recursively, then
                 // register it and its sub-directories
@@ -151,7 +153,7 @@ public class FileWatcher extends Thread implements Watcher {
                     } else if (ENTRY_MODIFY.equals(kind)) {
                         handler.digestModifiedFile((WatchEvent<Path>) event);
                     } else {
-                        // TODO - log skipped event
+                        LOGGER.log(Level.FINE, "Skipped event of type " + kind.name());
                     }
                 }
 

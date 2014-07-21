@@ -11,6 +11,9 @@ import org.wavescale.hotload.watcher.api.NotifyHandler;
 import java.io.File;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * ****************************************************************************
@@ -24,18 +27,19 @@ import java.lang.instrument.Instrumentation;
  * *****************************************************************************
  */
 public class HotLoadAgent {
+    private static final Logger LOGGER = Logger.getLogger(HotLoadAgent.class.getName());
 
     public static void premain(String agentArgs, Instrumentation instrumentation) {
         ConfigManager configManager = ConfigManager.getInstance();
         initConfigManager(agentArgs.split(" "));
+        LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(configManager.getLogLevel());
         NotifyHandler watchHandler = new WatchHandler();
         try {
             FileWatcher fileMonitor = new FileWatcher(configManager.getDirsToMonitor(), configManager.isMonitorRecursive());
             fileMonitor.addNotifyHandler(watchHandler);
             instrumentation.addTransformer(new MethodTransformer());
         } catch (IOException e) {
-            // TODO -proper log the exeception
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, " An I/O error occured with trace:" + e);
         }
     }
 
@@ -67,8 +71,35 @@ public class HotLoadAgent {
                 String[] directoryToMonitor = options.getOptionValue("class-path").split(File.pathSeparator);
                 configManager.setDirsToMonitor(directoryToMonitor);
             }
+
+            if (options.hasOption("log-level")) {
+                String logLevel = options.getOptionValue("log-level");
+                switch (logLevel.toLowerCase()) {
+                    case "fine":
+                        configManager.setLogLevel(Level.FINE);
+                        break;
+                    case "info":
+                        configManager.setLogLevel(Level.INFO);
+                        break;
+                    case "warning":
+                        configManager.setLogLevel(Level.WARNING);
+                        break;
+                    case "severe":
+                        configManager.setLogLevel(Level.SEVERE);
+                        break;
+                    case "all":
+                        configManager.setLogLevel(Level.ALL);
+                        break;
+                    case "off":
+                        configManager.setLogLevel(Level.OFF);
+                        break;
+
+                    default:
+                        configManager.setLogLevel(Level.INFO);
+                }
+            }
         } catch (ParseException e) {
-            // TODO - proper log the exception
+            LOGGER.log(Level.WARNING, "Could not parse agent arguments due to:" + e);
         }
     }
 }
