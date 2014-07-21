@@ -15,7 +15,7 @@ public class ClassUtil {
     /**
      * A list of packages that must be skipped from transforming.
      */
-    public static String[] tabooPackages = {
+    public static final String[] tabooPackages = {
             "java.applet",
             "java.awt",
             "java.beans",
