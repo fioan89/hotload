@@ -1,5 +1,6 @@
 package org.wavescale.hotload.watcher;
 
+import org.wavescale.hotload.util.ClassUtil;
 import org.wavescale.hotload.watcher.api.NotifyHandler;
 import org.wavescale.hotload.watcher.api.Watcher;
 
@@ -133,30 +134,31 @@ public class FileWatcher extends Thread implements Watcher {
                 Path name = ev.context();
                 Path child = dir.resolve(name);
 
-                LOGGER.log(Level.INFO, "The " + event.kind().name() + " event was triggered on:" + child);
+                if (ClassUtil.isValidFileType(child)) {
+                    LOGGER.log(Level.INFO, "The " + event.kind().name() + " event was triggered on:" + child);
 
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
-                if (recursive && (kind == ENTRY_CREATE)) {
-                    try {
-                        if (isFolder(child)) {
-                            registerAll(child);
+                    // if directory is created, and watching recursively, then
+                    // register it and its sub-directories
+                    if (recursive && (kind == ENTRY_CREATE)) {
+                        try {
+                            if (isFolder(child)) {
+                                registerAll(child);
+                            }
+                        } catch (IOException x) {
+                            // ignore to keep sample readbale
                         }
-                    } catch (IOException x) {
-                        // ignore to keep sample readbale
+                    }
+                    // notify the handlers only if a valid file (i.e class files and hopefully later resource files)
+                    for (NotifyHandler handler : handlers) {
+                        if (ENTRY_CREATE.equals(kind)) {
+                            handler.digestCreatedFile((WatchEvent<Path>) event);
+                        } else if (ENTRY_MODIFY.equals(kind)) {
+                            handler.digestModifiedFile((WatchEvent<Path>) event);
+                        } else {
+                            LOGGER.log(Level.FINE, "Skipped event of type " + kind.name());
+                        }
                     }
                 }
-                // notify the handlers
-                for (NotifyHandler handler : handlers) {
-                    if (ENTRY_CREATE.equals(kind)) {
-                        handler.digestCreatedFile((WatchEvent<Path>) event);
-                    } else if (ENTRY_MODIFY.equals(kind)) {
-                        handler.digestModifiedFile((WatchEvent<Path>) event);
-                    } else {
-                        LOGGER.log(Level.FINE, "Skipped event of type " + kind.name());
-                    }
-                }
-
             }
 
             // reset key and remove from set if directory no longer accessible
