@@ -2,6 +2,9 @@ package org.wavescale.hotload.util;
 
 import junit.framework.TestCase;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * ****************************************************************************
  * Copyright (c) 2005-2014 Faur Ioan-Aurel.                                     *
@@ -21,6 +24,9 @@ public class ClassUtilTest extends TestCase {
     public static final String PUBLIC_METHOD_NAME_WITH_INDEX = "publicStringMethodOne1";
     public static final String PUBLIC_METHOD_NAME_WITH_INDEX_ZERO = "publicStringMethodOne0";
     public static final String PUBLIC_METHOD_NAME_WITHOUT_INDEX = "publicStringMethodOne";
+    public static final Path VALID_CLASS_PATH = Paths.get("file://home/user/MainClass.class");
+    public static final Path VALID_RESOURCE_PATH = Paths.get("file://home/user/MainClass.properties");
+    public static final Path INVALID_CLASS_PATH = Paths.get("file://home/user/MainClass");
 
     public void testNormalizeClassNameWithForwardSlash() {
         assertEquals(ORG_WAVESCALE_HOTLOAD_AGENT_CLASS, ClassUtil.normalizeClassName("org/wavescale/hotload/agent.Class"));
@@ -66,5 +72,12 @@ public class ClassUtilTest extends TestCase {
         assertEquals(PUBLIC_METHOD_NAME_WITH_INDEX, ClassUtil.getPublicMethodName(String.class, "MethodOne", 1));
     }
 
+    public void testIsValidFileTypeForMonitoring() {
+        assertTrue(ClassUtil.isValidFileType(VALID_CLASS_PATH));
+        assertTrue(ClassUtil.isValidFileType(VALID_RESOURCE_PATH));
+    }
 
+    public void testIsNotValid() {
+        assertFalse(ClassUtil.isValidFileType(INVALID_CLASS_PATH));
+    }
 }
